@@ -1,24 +1,35 @@
 {
   "$schema": "https://turbo.build/schema.json",
   "globalDependencies": ["**/.env.*local"],
+
   "pipeline": {
     "verify": {
-
+      "dependsOn": ["^build"],
+      "cache": false
     },
+
     "clean": {
-
+      "dependsOn": ["^build"],
+      "cache": false
     },
+
     "deploy:berachain": {
+      "dependsOn": ["build"],
       "cache": false,
       "persistent": true
     },
+
     "build": {
       "dependsOn": ["^build"],
-      "outputs": [".next/**", "!.next/cache/**"]
+      "outputs": [".next/**", "!.next/cache/**"],
+      "cache": true
     },
+
     "lint": {
-      "dependsOn": ["^lint"]
+      "dependsOn": ["^lint"],
+      "cache": true
     },
+
     "dev": {
       "cache": false,
       "persistent": true
